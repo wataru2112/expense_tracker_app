@@ -1,7 +1,7 @@
-import 'package:expense_tracker_app/widget/expenses_item.dart';
+import 'package:expense_tracker_app/widget/expenses_list/expenses_item.dart';
 import 'package:flutter/material.dart';
 
-import 'models/expense.dart';
+import '../../models/expense.dart';
 
 class ExpensesList extends StatelessWidget {
   const ExpensesList({
@@ -13,7 +13,13 @@ class ExpensesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemBuilder: (ctx, index) => ExpenseItem(expense: expenses[index]),
+      itemBuilder: (ctx, index) => Dismissible(// スワイプで削除
+        key: ValueKey(expenses[index]),
+        onDismissed: ,
+        child: ExpenseItem(
+          expense: expenses[index],
+        ),
+      ),
     );
   }
 }
