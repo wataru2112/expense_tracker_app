@@ -101,7 +101,7 @@ class _NewExpenseState extends State<NewExpense> {
             // onChanged: _saveTitleInput,
             controller: _titleController,
             maxLength: 50,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               label: Text('Title'),
             ),
           ),
@@ -111,7 +111,7 @@ class _NewExpenseState extends State<NewExpense> {
                 child: TextField(
                   controller: _amountController,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     prefixText: '\$',
                     label: Text('Amount'),
                   ),
@@ -131,8 +131,10 @@ class _NewExpenseState extends State<NewExpense> {
                           : formatter.format(_selectedDate!),
                     ),
                     IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.calendar_month_outlined),
+                      onPressed: _presentDatePicker,
+                      icon: const Icon(
+                        Icons.calendar_month_outlined,
+                      ),
                     ),
                   ],
                 ),
@@ -141,18 +143,40 @@ class _NewExpenseState extends State<NewExpense> {
           ),
           Row(
             children: [
+              DropdownButton(
+                value: _selectedCategory,
+                items: Category.values
+                    .map(
+                      (category) => DropdownMenuItem(
+                        value: category,
+                        child: Text(
+                          category.name.toUpperCase(),
+                        ),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {
+                  if (value == null) {
+                    return;
+                  }
+                  setState(() {
+                    _selectedCategory = value;
+                  });
+                },
+              ),
+              const Spacer(),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text(''),
+                child: const Text('Cancel'),
               ),
               ElevatedButton(
-                onPressed: () {},
-                child: const Text(''),
+                onPressed: _submitExpenseData,
+                child: const Text('Submit'),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
